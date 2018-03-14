@@ -59,14 +59,23 @@
             };
 
             function addclass(obj,cls){
-              if(!obj.hasClass(obj.cls)){
-
+              if(!hasClass(obj,cls)){
+                obj.className += ' ' + cls;
               }
+            };
+
+            Object.prototype.removeClass = function removeClass(obj,cls){
+                if(hasClass(obj,cls)){
+                    var reg = new RegExp('(\\s|^)' + cls + '(\\s|$)');
+                    obj.className = obj.className.replace(reg,'');
+                }
             };
 
             function regConvert(){
                 var reg,str,judge,regCon,subRegInfo,displayTable;
                 regCon = document.getElementById('reg-con');
+                subRegInfo = document.getElementById('sub-reg-info');
+                displayTable = document.getElementById('display-table');
             }
 
 
