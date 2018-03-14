@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>测试图片加载</title>
+	<style type="text/css" media="screen">
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		.img,img{
+			border: 1px solid #ccc;
+			margin: 2px;
+		}
+		span.img{
+			display: inline-block;
+			width: 100px;
+			height: 80px;
+			background-size: 100% 100%;
+		}
+		div.scroll-img{
+			width: 50%;
+			margin: 4px auto;
+			font-size: 0;
+		}
+		div.scroll-img>img{
+			width: 100%;
+		}
+	</style>
+</head>
+<body>
+	<div id="box">
+		
+	</div>
+	<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.js"></script>
+	<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery-lazyload/1.9.5/jquery.lazyload.js"></script>
+	<script type="text/javascript">
+		$(function () {
+			$.ajax({
+				type: "POST",
+				dataType: "json",
+				url: "img_src.json",
+				success: function (result) {
+					lazyLoading(result,9);
+				}
+			});
+		});
+		var num = 30000;
+		var src = 'https://drscdn.500px.org/photo/244279211/q%3D80_m%3D1500/v2?webp=true&sig=890b5f4c3480b4c3d544c67fe3eb06880e35932fc9c881422551afc77e1c387a';
+		// 图片加载
+		function imgLoading(data,repeatNum){
+			var str = '';
+			for(var i = 0;i<data.length;i++){
+				str += '<img width="100" src="'+data[i]+'" alt="">';
+			}
+			if(repeatNum>0){
+				for(var j = 0;j<repeatNum;j++){
+					str += str;
+				}
+			}
+			$('#box').html(str);
+		}
+		// 背景图加载
+		function bgLoading(data,repeatNum){
+			var str = '';
+			for(var i = 0;i<data.length;i++){
+				str += '<span class="img" style="background-image: url('+data[i]+');"></span>';
+			}
+			if(repeatNum>0){
+				for(var j = 0;j<repeatNum;j++){
+					str += str;
+				}
+			}
+			$('#box').html(str);
+		}
+		// 懒加载图片
+		function lazyLoading(data,repeatNum){
+			var str = '';
+			for(var i = 0;i<data.length;i++){
+				str += '<div class="scroll-img"><img class="lazy" data-original="'+data[i]+'" alt=""></div>';
+			}
+			if(repeatNum>0){
+				for(var j = 0;j<repeatNum;j++){
+					str += str;
+				}
+			}
+			$('#box').html(str);
+			$("img.lazy").lazyload({effect: "fadeIn"});
+		}
+
+		// imgLoading();
+		// bgLoading();
+		// lazyLoading();
+	</script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>测试模版</title>
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <style>
+        .form-group textarea{
+            resize: none;
+        }
+        .hide{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <section class="container">
+        <h1>正则表达式测试</h1>
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label for="reg-con" class="col-sm-2 control-label">正则规则</label>
+                <div class="col-sm-10">
+                    <input type="email" class="form-control" id="reg-con" placeholder="输入校验规则">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="str-con" class="col-sm-2 control-label">校验文本</label>
+                <div class="col-sm-10">
+                    <textarea class="form-control" id="str-con" rows="3" placeholder="输入需要校验的文本"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="button" id="sub-reg-info" class="btn btn-default">查询</button>
+                </div>
+            </div>
+        </form>
+        <table class="table table-condensed hide" id="display-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>内容</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>fsdfdsf</td>
+                </tr>
+            </tbody>
+
+        </table>
+    </section>
+
+    <script type="text/javascript">
+        window.onload = function(){
+            function hasClass(obj,cls){
+              return obj.className.match(new RegExp('(\\s|^)' + cls + '(\\s|$)'));
+            };
+
+            function addclass(obj,cls){
+              if(!obj.hasClass(obj.cls)){
+
+              }
+            };
+
+            function regConvert(){
+                var reg,str,judge,regCon,subRegInfo,displayTable;
+                regCon = document.getElementById('reg-con');
+            }
+
+
+            //document.write(judge);
+        }
+    </script>
+</body>
+</html>

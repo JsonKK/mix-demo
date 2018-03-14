@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<style type="text/css">
+    .img{
+        width: 500px;
+        height: 500px;
+        background: url("http://sliskillshare.oss-cn-beijing.aliyuncs.com/defaultdir/38d54ba44025407b8d6cba92ab65d418.png") no-repeat 0 0;
+        background-size: 100% 100%;
+        display: none;
+    }
+</style>
+</head>
+
+<body>
+<p>计数：<output id="result"></output></p>
+<p>计数2：<output id="result2"></output></p>
+<ul id="list" data-lang="6"></ul>
+
+<!--测试增加和删除条目-->
+<ul id="add-li">
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+    <li>4</li>
+    <li>5</li>
+</ul>
+<div class="img"></div>
+<script src="http://apps.bdimg.com/libs/jquery/1.9.0/jquery.js"></script>
+<script>
+    var w;
+    startWorker();
+    //多线程开始
+    function startWorker()
+    {
+    if(typeof(Worker)!=="undefined")
+    {
+      if(typeof(w)=="undefined")
+        {
+        w=new Worker("./demo_work.js");
+        }
+      w.onmessage = function (event) {
+        document.getElementById("result").innerHTML=event.data;
+      };
+    }
+    else
+    {
+    document.getElementById("result").innerHTML="Sorry, your browserdoes not support Web Workers...";
+    }
+    }
+    //多线程关闭
+    function stopWorker()
+    {
+    w.terminate();
+    }
+    //    测试循环事件
+    repeatDoing();
+    function repeatDoing(){
+        var str;
+        var i=10000000;
+        console.time('控制台计时器2');
+        for(var x = 0;x<i;x++){
+            str = 'worker' + x;
+        }
+        document.getElementById("result2").innerHTML=str;
+        console.timeEnd('控制台计时器2');
+    }
+    $(function(){
+      var $list = $('#list');
+      var index = $list.attr('data-lang') - 0;
+      if(index>0){
+          for(var j=0;j<=index;j++){
+              $list.append('<li>这是测试加载的列表'+j+'</li>');
+          }
+      }
+
+
+    //        测试增加删除
+        $('#add-li li').click(function(){
+            var obj = $(this);
+            var objDom = obj.clone();
+            obj.remove();
+            $('#add-li').prepend(obj);
+        });
+    });
+
+    var element = {id:'abc'};
+    var myObject = new Object();
+    myObject.element = element;
+    element.someObject = myObject;
+    console.log(myObject);
+</script>
+</body>
+</html>
