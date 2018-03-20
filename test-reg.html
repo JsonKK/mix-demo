@@ -31,15 +31,15 @@
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                    <button type="button" id="sub-reg-info" class="btn btn-default">查询</button>
+                    <button type="button" id="sub-reg-info" class="btn btn-default" onclick="regConvert()">查询</button>
                 </div>
             </div>
         </form>
-        <table class="table table-condensed hide" id="display-table">
+        <table class="table table-striped hide" id="display-table">
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>内容</th>
+                    <th>匹配到的内容</th>
                 </tr>
             </thead>
             <tbody>
@@ -53,33 +53,64 @@
     </section>
 
     <script type="text/javascript">
+
         window.onload = function(){
-            function hasClass(obj,cls){
-              return obj.className.match(new RegExp('(\\s|^)' + cls + '(\\s|$)'));
-            };
 
-            function addclass(obj,cls){
-              if(!hasClass(obj,cls)){
+        }
+
+        function hasClass(obj,cls){
+            return obj.className.match(new RegExp('(\\s|^)' + cls + '(\\s|$)'));
+        };
+
+        function addclass(obj,cls){
+            if(!hasClass(obj,cls)){
                 obj.className += ' ' + cls;
-              }
-            };
+            }
+        };
 
-            Object.prototype.removeClass = function removeClass(obj,cls){
-                if(hasClass(obj,cls)){
-                    var reg = new RegExp('(\\s|^)' + cls + '(\\s|$)');
-                    obj.className = obj.className.replace(reg,'');
+        Object.prototype.removeClass = function removeClass(obj,cls){
+            if(hasClass(obj,cls)){
+                var reg = new RegExp('(\\s|^)' + cls + '(\\s|$)');
+                obj.className = obj.className.replace(reg,'');
+            }
+        };
+
+        String.prototype.trim = function(){
+            return this.replace(/(^\s*)|(\s*$)/g,'');
+        };
+
+        function regConvert(){
+            var regStr,str,judge,regCon,strCon,displayTable,chl;
+//            规则框
+            regCon = document.getElementById('reg-con');
+//            字符串框
+            strCon = document.getElementById('str-con');
+            displayTable = document.getElementById('display-table');
+            var strConVal = strCon.value,regConVal = '/'+regCon.value+'/g';
+            if(regConVal.trim() !='' && strConVal.trim() !=''){
+                addclass(displayTable,'hide');
+                regStr = strConVal.match(eval(regConVal));
+                if(regStr instanceof Array && regStr.length>0 ){
+                    str = '';
+                    regStr.forEach(function (item,index) {
+                        item = item.toString();
+                        str += '<tr><td>'+(index+1)+'</td>'+'<td>'+item+'</td>';
+                    })
+                    displayTable.children[1].innerHTML = str;
+                    removeClass(displayTable,'hide');
+                }else{
+                    alert('没有匹配到内容')
                 }
-            };
-
-            function regConvert(){
-                var reg,str,judge,regCon,subRegInfo,displayTable;
-                regCon = document.getElementById('reg-con');
-                subRegInfo = document.getElementById('sub-reg-info');
-                displayTable = document.getElementById('display-table');
+            }else{
+                if(regConVal.trim() ==''){
+                    alert('请输入校验规则')
+                }
+                else if(strConVal.trim() ==''){
+                    alert('请输入需要匹配的内容')
+                }
             }
 
 
-            //document.write(judge);
         }
     </script>
 </body>

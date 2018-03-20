@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>基础js学习</title>
+</head>
+<body>
+    <div id="box"></div>
+    <script>
+        var number = [1,2,3,4,5,4,3,2,1];
+        var isPass = number.every(function (item,index,arr) {
+            return(item>2);
+        });
+
+        var book = {
+            _year : 2004,
+            edition : 1
+        };
+        Object.defineProperty(book,'year',{
+            get :function(res){
+                return this._year
+            },
+            set : function (newValue) {
+                if(newValue > 2004){
+                    this._year = newValue;
+                    this.edition = newValue - 2004;
+                }
+            }
+        });
+        book.year = 2015;
+
+        document.getElementById('box').innerText = book.edition + 'a' + book._year;
+    </script>
+</body>
+</html>
