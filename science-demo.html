@@ -15,38 +15,140 @@
 </head>
 <body>
     <section class="container">
-        <h1>正则表达式测试</h1>
+        <h1>算法积累</h1>
         <form class="form-horizontal">
             <div class="form-group">
-                <label for="sort-con" class="col-sm-2 control-label">正则规则</label>
-                <div class="col-sm-10">
-                    <input type="email" class="form-control" id="sort-con" placeholder="输入校验规则">
+                <label for="sort-con" class="col-sm-2 control-label">排序数值</label>
+                <div class="col-sm-7">
+                    <input type="text" class="form-control" id="sort-con" placeholder="需要排序的数值">
+                </div>
+                <div class="col-sm-2">
+                    <select id="select-list" class="form-control">
+                      <option data-type="1">sort</option>
+                      <option data-type="2">木桶</option>
+                    </select>
                 </div>
             </div>
+            
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                    <button type="button" id="sub-reg-info" class="btn btn-default" onclick="regConvert()">排序</button>
+                    <button type="button" id="sub-sort-info" class="btn btn-default">排序</button>
                 </div>
             </div>
         </form>
+        <table class="table table-striped hide" id="display-table">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>排序数值</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>1</td>
+                <td>fsdfdsf</td>
+            </tr>
+            </tbody>
+
+        </table>
     </section>
-    <table class="table table-striped hide" id="display-table">
-        <thead>
-        <tr>
-            <th>#</th>
-            <th>匹配到的内容</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>1</td>
-            <td>fsdfdsf</td>
-        </tr>
-        </tbody>
-
-    </table>
+    
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.js"></script>
     <script>
+        $(function(){
+            // 获取文本框的数组
+            function getNumArr(){
+                var arr,str,cacheArr;
+                arr = [];
+                str = $("#sort-con").val();
+                if(!$.trim(str)){
+                    return false;
+                }
+                cacheArr = str.split(" ");
+                if(cacheArr instanceof Array && cacheArr.length>0){
+                    var num;
+                    cacheArr.forEach(function(o,i){
+                        num = Number(o);
+                        if(num){
+                            arr.push(num)
+                        }
+                    });
+                    return arr;
+                }else{
+                    return false;
+                }
 
+            }
+            // 获取下拉框的值
+            function getOptions(){
+                var $select,selectVal;
+                $select = $("#select-list option:selected");
+                selectVal = $select.attr('data-type');
+
+                return selectVal;
+            }
+
+            $("#sub-sort-info").on("click",function(){
+                $("#display-table").addClass("hide");
+                var options,arr,sortArr,str;
+                arr = getNumArr();
+                type = getOptions();
+                if(!arr){
+                    alert("请输入需要排序的数字");
+                    return;
+                }
+                switch(Number(type)){
+                    case 1:
+                        sortArr = normalSort(arr);
+                        break;
+                    case 2:
+                        sortArr = pailSort(arr);
+                        break;
+                    default:
+                        break;
+                }
+                sortArr.forEach(function(o,i){
+                    str += "<tr><td>"+(i+1)+"</td><td>"+o+"</td></tr>";
+                });
+                $("#display-table").removeClass("hide").find("tbody").html(str);
+            });
+
+            // 普通排序
+            function normalSort(arr){
+                arr.sort(function(a,b){
+                    return b-a
+                });
+                return arr;
+            }
+
+            // 木桶排序
+            function pailSort(arr){
+                var max = Math.max.apply(null,arr),
+                    min = Math.min.apply(null,arr),
+                    pailArr = new Array(max+1);
+                if(min<0){
+                    pailArr.length = pailArr.length + parseInt();
+                }
+                for(var i=0;i<pailArr.length;i++){
+                    pailArr[i] = 0;
+                    arr.forEach(function(obj,num){
+                        if(i==obj){
+                            pailArr[i]++;
+                        }
+                    });
+                }
+                var orderStu = [];
+                pailArr.forEach(function(o,i){
+                    if(o>0){
+                        for(var j=0;j<o;j++){
+                            orderStu.unshift(i);
+                        }
+                    }
+                });
+                return orderStu;
+            }
+            
+        });
     </script>
 </body>
 </html>
