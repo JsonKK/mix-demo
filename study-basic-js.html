@@ -12,24 +12,27 @@
             return(item>2);
         });
 
-        var book = {
-            _year : 2004,
-            edition : 1
-        };
-        Object.defineProperty(book,'year',{
-            get :function(res){
-                return this._year
-            },
-            set : function (newValue) {
-                if(newValue > 2004){
-                    this._year = newValue;
-                    this.edition = newValue - 2004;
+
+        //数字数组利用木桶原理降序排列
+        var arr = new Array(11);
+        var stu = [5,3,5,2,8,10,0,2,3,5,6,7];
+        for(var i=0;i<arr.length;i++){
+            arr[i] = 0;
+            stu.forEach(function(obj,num){
+                if(i==obj){
+                    arr[i]++;
+                }
+            });
+        }
+        //1.方法
+        var orderStu = [];
+        arr.forEach(function(o,i){
+            if(o>0){
+                for(var j=0;j<o;j++){
+                    orderStu.unshift(i);
                 }
             }
         });
-        book.year = 2015;
-
-        document.getElementById('box').innerText = book.edition + 'a' + book._year;
     </script>
 </body>
 </html>
